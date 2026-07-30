@@ -1,0 +1,131 @@
+DATA STRUCTURES & ALGORITHMS (UNIT 1) NOTES
+===========================================
+
+1. FUNDAMENTALS OF PROGRAMMING ELEMENTS
+---------------------------------------
+
+* Variables
+  - Definition: Placeholders used in programming to store and hold data values in memory.
+  - Analogy: Similar to algebraic variables (e.g., x and y) that represent numerical values.
+
+* Data Types
+  - Definition: A predefined classification of data that specifies the type and range of values a variable can hold. Memory consists of 0s and 1s; data types abstract this raw memory into usable units.
+  - Categories:
+    1. System-Defined (Primitive) Data Types: Built into the language (e.g., int, float, char, double, boolean).
+       - Example: A 2-byte (16-bit) int ranges from -32,768 to 32,767 (-2^15 to 2^15 - 1). A 4-byte (32-bit) int ranges from -2,147,483,648 to 2,147,483,647 (-2^31 to 2^31 - 1).
+    2. User-Defined Data Types: User-created structures combining primitive data types (e.g., class in Java, struct in C/C++).
+
+* Data Structures
+  - Definition: A specialized format for organizing, storing, and manipulating data efficiently in a computer.
+  - Classification:
+    1. Linear Data Structures: Elements are accessed sequentially (e.g., Arrays, Linked Lists, Stacks, Queues).
+    2. Non-Linear Data Structures: Elements are accessed/stored in non-linear hierarchical or interconnected networks (e.g., Trees, Graphs).
+
+* Abstract Data Types (ADTs)
+  - Definition: A high-level specification that combines a data structure with the operations that can be performed on it, independent of the implementation details.
+  - Components:
+    1. Declaration of Data
+    2. Declaration of Operations
+  - Example (Stack ADT): Follows LIFO (Last-In-First-Out). Operations include push(), pop(), top(), isEmpty(), and size().
+
+
+2. ALGORITHM ANALYSIS BASICS
+----------------------------
+
+* What is an Algorithm?
+  An algorithm is an unambiguous, step-by-step set of instructions designed to solve a specific problem in a finite number of steps.
+  - Key Criteria:
+    - Correctness: Computes the expected result accurately.
+    - Efficiency: Minimizes consumption of resources (Time and Space/Memory).
+
+* Why Analyze Algorithms?
+  Multiple algorithms can solve the same problem (e.g., Insertion Sort vs. Quick Sort). Analysis enables comparison to select the most efficient algorithm for a given input size.
+
+* Measuring Execution Efficiency
+  - Execution Time (Stopwatch): Ineffective measure because it depends heavily on hardware, OS, and language environment.
+  - Statement Counting: Ineffective because statement count varies by programming style and language.
+  - Ideal Solution (Rate of Growth): Express running time as a mathematical function f(n) relative to input size n. High-order terms dominate for large n, allowing low-order terms to be dropped (e.g., n^4 + 100n^2 is approximately n^4).
+
+
+3. TYPES OF ANALYSIS & ASYMPTOTIC NOTATIONS
+--------------------------------------------
+
+* Types of Input Analysis
+  1. Worst-Case: Maximum running time required over any input of size n (Upper Bound).
+  2. Best-Case: Minimum running time required over any input of size n (Lower Bound).
+  3. Average-Case: Expected running time averaged across all possible valid inputs of size n.
+
+  Relationship: Lower Bound <= Average Time <= Upper Bound
+
+* Asymptotic Notations
+  1. Big-O Notation [O] -- Tight Upper Bound
+     Represents the maximum rate of growth (worst-case scenario) for large values of n.
+     Definition: f(n) = O(g(n)) if there exist positive constants c and n0 such that:
+     0 <= f(n) <= c * g(n) for all n >= n0.
+     Example: For f(n) = 3n + 8:
+     3n + 8 <= 4n for all n >= 8 ==> f(n) = O(n) (where c = 4, n0 = 8).
+
+  2. Omega Notation [Ω] -- Tight Lower Bound
+     Represents the minimum rate of growth (best-case scenario) for large values of n.
+     Definition: f(n) = Ω(g(n)) if there exist positive constants c and n0 such that:
+     0 <= c * g(n) <= f(n) for all n >= n0.
+     Example: For f(n) = 5n^2:
+     c * n^2 <= 5n^2 ==> 5n^2 = Ω(n^2) (where c = 5, n0 = 1).
+
+  3. Theta Notation [Θ] -- Tight Bound
+     Used when the upper bound [O] and lower bound [Ω] have the same order of growth.
+     Definition: f(n) = Θ(g(n)) if there exist positive constants c1, c2, and n0 such that:
+     0 <= c1 * g(n) <= f(n) <= c2 * g(n) for all n >= n0.
+
+* Guidelines for Code Complexity Analysis
+  1. Single Loop: Running time is proportional to iterations --> O(n).
+  2. Nested Loops: Product of all loop iterations --> O(n^2) for 2 nested loops.
+  3. Consecutive Statements: Add individual complexities and keep the dominating term:
+     T(n) = c0 + c1*n + c2*n^2 ==> O(n^2).
+  4. Conditional Statements (if-else): Takes the time of the condition check plus the maximum of the then or else branches.
+  5. Logarithmic Loops: If problem size reduces by a constant factor (e.g., doubling i *= 2 or halving n/2) --> O(log n).
+
+
+4. SOLVING RECURRENCE RELATIONS
+-------------------------------
+
+* Divide-and-Conquer Master Theorem
+  For recurrences of the standard form:
+  T(n) = a * T(n/b) + Θ(n^k * (log n)^p)
+  where a >= 1, b > 1, k >= 0, and p is a real number.
+
+  - Case 1: If a > b^k
+    T(n) = Θ(n^(log_b a))
+
+  - Case 2: If a = b^k
+    - If p > -1  ==> T(n) = Θ(n^k * (log n)^(p+1))
+    - If p = -1  ==> T(n) = Θ(n^k * log(log n))
+    - If p < -1  ==> T(n) = Θ(n^k)
+
+  - Case 3: If a < b^k
+    - If p >= 0  ==> T(n) = Θ(n^k * (log n)^p)
+    - If p < 0   ==> T(n) = O(n^k)
+
+* Key Recurrence Practice Problems
+  - T(n) = 3T(n/2) + n^2              | a=3, b=2, k=2 (a < b^k)          | Master Case 3.a | Solution: Θ(n^2)
+  - T(n) = 4T(n/2) + n^2              | a=4, b=2, k=2 (a = b^k, p=0)     | Master Case 2.a | Solution: Θ(n^2 log n)
+  - T(n) = 16T(n/4) + n               | a=16, b=4, k=1 (a > b^k)         | Master Case 1   | Solution: Θ(n^2)
+  - T(n) = 2T(n/2) + n log n          | a=2, b=2, k=1, p=1 (a = b^k)     | Master Case 2.a | Solution: Θ(n log^2 n)
+  - T(n) = T(n/2) + log n             | a=1, b=2, k=0, p=1 (a = b^k)     | Master Case 2.a | Solution: Θ(log^2 n)
+  - T(n) = (2^n)T(n/2) + n^n          | Non-constant a                   | N/A             | Does Not Apply
+  - T(n) = 0.5T(n/2) + 1/n            | a = 0.5 < 1                      | N/A             | Does Not Apply
+
+* Subtraction-and-Conquer Recurrences
+  For recurrences of the form:
+  T(n) = T(n - a) + O(n^k)
+  The general solution evaluates to O(n^(k+1)).
+
+  For asymmetric splits like T(n) = T(α*n) + T((1 - α)*n) + β*n, the runtime is O(n log n).
+
+
+5. AMORTIZED ANALYSIS
+---------------------
+
+* Definition: Analyzes the average time per operation over a sequence of operations in the worst case.
+* Key Difference: Unlike average-case analysis, amortized analysis does NOT assume random input distributions.
+* Purpose: Avoids overly pessimistic bounds when occasional costly operations are guaranteed to be preceded/followed by many cheap operations.
