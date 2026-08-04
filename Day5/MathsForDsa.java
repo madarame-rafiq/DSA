@@ -31,13 +31,26 @@ public class MathsForDsa {
         return (num & 1) == 0;
     }
 
+    static int uniqueElement (int[] nums) {
+        //Intiution xor operator follows assoicative property meaning 1 ^ 2 ^ 3 ^ 4 = 4 ^ 3 ^ 2 ^ 1;
+        // so in an array all the elements apperaring twice will cancel out and only the unique elemtn will remain
+        int ans = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            ans = ans ^ nums[i];
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         
         Scanner scn = new Scanner(System.in);
 
         //Question - 1:- Even or odd
-        int num = scn.nextInt();
-        System.out.println(evenOrNot(num));
+        // int num = scn.nextInt();
+        // System.out.println(evenOrNot(num));
 
+        // Question -2:- Find the only unique element
+        int[] nums = {1, 3, 4, 5, 4, 2, 6, 1, 3, 5, 2};
+        System.out.println(uniqueElement(nums));
     }
 }
